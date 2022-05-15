@@ -14,3 +14,5 @@ handlers/__pycache__/__init__.cpython-310.pyc
 __pycache__/loader.cpython-310.pyc
 handlers/users/__pycache__/__init__.cpython-310.pyc
 handlers/users/__pycache__/start.cpython-310.pyc
+api/__pycache__/__init__.cpython-310.pyc
+api/__pycache__/anilibria.cpython-310.pyc
