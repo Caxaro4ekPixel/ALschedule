@@ -20,7 +20,7 @@ class AnilibriaApi:
                 case 404:
                     return None
                 case _:
-                    logging.warning("Something went wrong! Status code is {response.status}")
+                    logging.warning(f"Something went wrong! Status code is {response.status}")
                     return None
 
     async def get_schedule(self):
