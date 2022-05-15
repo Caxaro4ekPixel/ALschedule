@@ -3,25 +3,24 @@ from aiogram import types
 from aiogram.dispatcher.filters import CommandStart, Text
 from aiogram.utils.markdown import hitalic, hcode
 import aiohttp
-
-from loader import dp
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from loader import dp, al_api
 
 
 @dp.message_handler(CommandStart())
 async def bot_start(message: types.Message):
-    relese_id = message.text.replace("/start ", "")
+    title_id = message.get_args()
+    title = await al_api.get_title(title_id)
 
-    async with aiohttp.ClientSession() as session:
-        try:
-            async with session.get(f'https://api.anilibria.tv/v2/getTitle?id={relese_id}') as response:
-                json = await response.json()
-        except Exception as ex:
-            logging.info(ex)
+    start_keyboard = InlineKeyboardMarkup()
+    start_keyboard.row(
+        InlineKeyboardButton(text="Да", callback_data='1'), 
+        InlineKeyboardButton(text="Нет", callback_data='0')
+    )
 
-    if "error" in json:
+    if "error" in title:
         await message.answer('🧐Такого релиза не существует!🧐')
         await message.answer('Этот бот используеться в каналах! Для использования нужно прописать /start [id релиза]')
     else:
-        bottons = [[types.InlineKeyboardButton(text="Да", callback_data='1')], [types.InlineKeyboardButton(text="Нет", callback_data='0')]]
-        await message.answer(f'Релиз: {json.get("names").get("ru")}?\nID: {relese_id}', reply_markup=types.InlineKeyboardMarkup(bottons))
+        await message.answer(f'Релиз: {title.get("names").get("ru")}?\nID: {title_id}', reply_markup=start_keyboard)
 
