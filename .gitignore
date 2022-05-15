@@ -4,5 +4,11 @@ db.sqbpro
 utils.py
 .idea
 /logging file.log
-
+.vscode
 .env
+__pycache__/loader.cpython-310.pyc
+data/__pycache__/__init__.cpython-310.pyc
+data/__pycache__/config.cpython-310.pyc
+handlers/users/__pycache__/start.cpython-310.pyc
+handlers/__pycache__/__init__.cpython-310.pyc
+__pycache__/loader.cpython-310.pyc
