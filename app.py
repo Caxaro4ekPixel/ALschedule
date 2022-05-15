@@ -2,7 +2,7 @@ from aiogram import executor
 import logging
 
 from loader import dp, bot
-import middlewares, filters, handlers
+import handlers
 
         
 async def on_startup(dp):
