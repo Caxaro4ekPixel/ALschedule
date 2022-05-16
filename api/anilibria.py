@@ -1,5 +1,16 @@
 import logging
 import aiohttp
+from pydantic import BaseModel
+
+
+class Names(BaseModel):
+    ru: str
+    en: str
+
+class ALTitle(BaseModel):
+    id: int
+    code: str
+    names: Names
 
 
 class AnilibriaApi:
@@ -29,5 +40,6 @@ class AnilibriaApi:
     async def get_title_by_id(self, title_id):
         return await self._request(f'getTitle?id={title_id}')
 
-    async def search_title(self, search):
-        return await self._request(f'searchTitles?search={search}')
+    async def get_titles(self, search):
+        titles = await self._request(f'searchTitles?search={search}')
+        return [ALTitle(**title) for title in titles] if titles else [] #TODO: return None-object
