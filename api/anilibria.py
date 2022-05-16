@@ -28,3 +28,6 @@ class AnilibriaApi:
 
     async def get_title_by_id(self, title_id):
         return await self._request(f'getTitle?id={title_id}')
+
+    async def search_title(self, search):
+        return await self._request(f'searchTitles?search={search}')
