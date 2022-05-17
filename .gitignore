@@ -17,3 +17,5 @@ handlers/users/__pycache__/start.cpython-310.pyc
 api/__pycache__/__init__.cpython-310.pyc
 api/__pycache__/anilibria.cpython-310.pyc
 handlers/users/__pycache__/search.cpython-310.pyc
+handlers/users/__pycache__/test_nyaarss.cpython-310.pyc
+api/__pycache__/nyaasi.cpython-310.pyc
