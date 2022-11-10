@@ -9,6 +9,8 @@ from datetime import datetime
 class NyaaTorrent(BaseModel):
     # основные атрибуты торрента
     id: str
+    submitter: str
+    episode: int
     quality: str
     url: HttpUrl
     file_url: FileUrl

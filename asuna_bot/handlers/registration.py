@@ -1,9 +1,9 @@
 from aiogram import Router
 from aiogram.types import Message
-from tgbot.filters.admins import AdminFilter
+from asuna_bot.filters.admins import AdminFilter
 
-from tgbot.filters.chat_type import ChatTypeFilter
-from tgbot.db.mongo import add_user
+from asuna_bot.filters.chat_type import ChatTypeFilter
+from asuna_bot.db.mongo import add_user
 
 admin_router = Router()
 admin_router.message.filter(AdminFilter(), ChatTypeFilter("private"))

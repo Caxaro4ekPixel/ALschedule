@@ -5,7 +5,7 @@ from odm.release import Release
 from odm.chat import Chat
 from odm.episode import Episode
 from odm.user import User
-from tgbot.config import CONFIG
+from asuna_bot.config import CONFIG
 
 
 class Mongo():

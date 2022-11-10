@@ -1,7 +1,7 @@
 from aiogram.filters import Filter
 from aiogram.types import Message
-from tgbot.db.mongo import mongo
-from tgbot.config import CONFIG
+from asuna_bot.db.mongo import mongo
+from asuna_bot.config import CONFIG
 
 
 class AdminFilter(Filter):
