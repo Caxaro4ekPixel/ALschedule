@@ -26,4 +26,4 @@ class Chat(Document):
     _id     = IntField(primary_key=True)
     name    = StringField(max_length=100)
     config  = EmbeddedDocumentField(ChatConfig, default=ChatConfig)
-    release = ListField(ReferenceField(Release))
+    release = ReferenceField(Release)

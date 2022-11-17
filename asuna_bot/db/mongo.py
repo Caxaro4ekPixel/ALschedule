@@ -1,10 +1,9 @@
-from ast import List
-
+from typing import List
 from mongoengine import connect
-from odm.release import Release
-from odm.chat import Chat
-from odm.episode import Episode
-from odm.user import User
+from .odm.release import Release
+from .odm.chat import Chat
+from .odm.episode import Episode
+from .odm.user import User
 from asuna_bot.config import CONFIG
 
 
@@ -12,7 +11,11 @@ class Mongo():
     def __init__(self) -> None:
         connect(host=CONFIG.db.connection_string)
 
-    def save_chat(self, _id: int, name: str) -> Chat:
+    def get_chat(self, chat_id: int) -> Chat:
+        return Chat.objects.get(_id=chat_id)
+        
+
+    def add_chat(self, _id: int, name: str) -> Chat:
         return Chat(_id=_id, name=name).save()
 
 
