@@ -5,17 +5,18 @@ from mongoengine import (
     IntField,
     ListField,
     DateTimeField,
-    EmbeddedDocumentField
+    EmbeddedDocumentField,
+    EmbeddedDocument
 )
-from .torrent import NyaaTorrent
+from .torrent import MongoTorrent
 
-class Episode(Document):
+class Episode(EmbeddedDocument):
     submitter       = StringField()
     title           = StringField()
-    episode_number  = IntField(min_value=0, max_value=1000)
+    number          = IntField(min_value=0, max_value=1000)
     released_at     = DateTimeField()
     deadline_at     = DateTimeField()
     in_progress     = BooleanField()
     uploaded_at     = DateTimeField()
     minutes_work_on = IntField()
-    torrent         = ListField(EmbeddedDocumentField(NyaaTorrent))
+    torrents        = ListField(EmbeddedDocumentField(MongoTorrent))

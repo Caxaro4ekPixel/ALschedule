@@ -3,7 +3,7 @@ from mongoengine import (
     StringField,
     BooleanField,
     IntField,
-    ReferenceField,
+    EmbeddedDocumentField,
     ListField
 )
 from .episode import Episode
@@ -17,4 +17,4 @@ class Release(Document):
     total_ep   = IntField(min_value=0, max_value=1000)
     is_ongoing = BooleanField(default=True)
     is_top     = BooleanField(default=False)
-    episode    = ListField(ReferenceField(Episode))
+    episodes   = ListField(EmbeddedDocumentField(Episode))

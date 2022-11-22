@@ -6,9 +6,11 @@ from mongoengine import (
     URLField
 )
 
-class NyaaTorrent(EmbeddedDocument):
+class MongoTorrent(EmbeddedDocument):
     # основные атрибуты торрента
-    id       = IntField(primary_key=True)
+    id       = IntField()
+    submitter = StringField()
+    serie = StringField()
     quality  = StringField(max_length=10)
     url      = URLField()
     file_url = URLField()
