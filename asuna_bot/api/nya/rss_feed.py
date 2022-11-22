@@ -4,8 +4,8 @@ from typing import List
 # from fuzzywuzzy import fuzz
 from loguru import logger as log
 
-# from asuna_bot.db.mongo import mongo
-# from asuna_bot.db.odm.chat import Chat
+from asuna_bot.db.mongo import mongo
+from asuna_bot.main.chat_control import Chat
 
 from .model import NyaaTorrent
 from .rss_parser import rss_to_json
@@ -18,9 +18,7 @@ class RssFeed:
         self._session = ClientSession()
         self._interval = interval
         self._last_id = 0 
-        
         self.running = True
-        
         self._base_url = 'https://nyaa.si/?'
         self._params = {
             "page": "rss",
@@ -28,7 +26,11 @@ class RssFeed:
             "c": "0_0",
             "f": "0"
         }
-
+        
+        # при перезапуске автоматически подхватит чаты из БД
+        chat_ids = mongo.get_all_active_chats()
+        for _id in chat_ids:
+            self.register(Chat(_id))
 
     def register(self, chat) -> None:
         self._chats.add(chat)
@@ -93,5 +95,3 @@ class RssFeed:
                 self._last_id = int(parsed_rss[0].get("id")) # TODO добавлять id В базу
             
             await asyncio.sleep(self._interval)
-
-

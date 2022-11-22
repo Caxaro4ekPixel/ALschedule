@@ -7,7 +7,7 @@ class NyaaTorrent(BaseModel):
     # основные атрибуты торрента
     id: int
     submitter: Optional[str | None]
-    episode: Optional[int | None]
+    serie: Optional[int | None]
     quality: Optional[str | None]
     url: HttpUrl
     file_url: HttpUrl
@@ -21,4 +21,4 @@ class NyaaTorrent(BaseModel):
     seeders: int
     leechers: int
     downloads: int
-    date: str
+    date: datetime
