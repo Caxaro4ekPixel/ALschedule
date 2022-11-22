@@ -1,9 +1,10 @@
 from urllib.parse import quote, urlencode
 from lxml import etree
-
+from dateutil.parser import *
 
 def parse_submitter(full_str: str) -> str:
-    return full_str.split()[0]
+    b = full_str.find("]")
+    return full_str[:b+1]
 
 
 def parse_quality(full_str: str) -> str or None:
@@ -13,7 +14,7 @@ def parse_quality(full_str: str) -> str or None:
     else: return None
 
 
-def parse_ep_number(full_str: str) -> int:
+def parse_serie(full_str: str) -> int:
     ep = "00"
     if full_str.lower().startswith("[subsplease]"):
         ep = full_str.split(" (")[0].split(" ")[-1]
@@ -46,14 +47,14 @@ def rss_to_json(resp, limit):
                         'magnet': f'https://nyaasi.herokuapp.com/nyaamagnet/urn:btih:{item.findtext("nyaa:infoHash", namespaces=item.nsmap)}',
                         # 'magnet': magnet_builder(item.findtext("nyaa:infoHash", namespaces=item.nsmap), item.findtext("title")),
                         'size': item.findtext("nyaa:size", namespaces=item.nsmap),
-                        'date': item.findtext("pubDate"),
+                        'date': parse(item.findtext("pubDate")),
                         'seeders': item.findtext("nyaa:seeders", namespaces=item.nsmap),
                         'leechers': item.findtext("nyaa:leechers", namespaces=item.nsmap),
                         'downloads': item.findtext("nyaa:downloads", namespaces=item.nsmap),
                         'type': item_type, 
                         'quality': parse_quality(title),
                         'submitter': parse_submitter(title),
-                        'episode': parse_ep_number(title)
+                        'serie': parse_serie(title)
                     }
 
                     torrents.append(torrent)
