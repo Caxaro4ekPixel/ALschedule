@@ -36,7 +36,18 @@ async def ass_to_srt(msg: Message):
     # split the file into events
     events = ''.join(lines).strip().split('Dialogue: ')
 
-    # extract the relevant information from each event
+    def parse_text(elements) -> str:
+        effect = elements[8]
+        text = ''.join(elements[9:]).strip().replace("\\N", " ")
+        if effect: 
+            text = "[" + text + "]"
+        else:
+            tags = ("\\fn", "\\shad", "\\bord", "\\fade")
+            for tag in tags:
+                if tag in text:
+                    text = "[" + text + "]"
+                    break
+        return re.sub(r'{.*?}', '', text.replace("—", ""))
     
     srt_events = []
     i = 1
@@ -45,30 +56,30 @@ async def ass_to_srt(msg: Message):
         elements = event.split(',')
         start = elements[1].replace(".", ",")
         end = elements[2].replace(".", ",")
-        effect = elements[8]
-        
-        # Highlight signs
-        if not effect: 
-            text = ','.join(elements[9:]).strip().replace("\\N", "")
-        else:
-            text = "[" + ','.join(elements[9:]).strip().replace("\\N", "") + "]"
-        
-        # remove "{ }" symbols and everything between them
-        text = re.sub(r'{.*?}', '', text)
+        text = parse_text(elements)
         
         # check if the end time of the current line is greater than the start time of the next line
         while i < len(events[1:]) - 1:
             next_event = events[i + 1]
             next_elements = next_event.split(',')
             next_start = next_elements[1].replace(".", ",")
-            if end > next_start:
-                text += ' \n—' + ''.join(next_elements[9:]).strip()
-                text = re.sub(r'{.*?}', '', text)
-                end = next_elements[2].replace(".", ",")
+            next_end = next_elements[2].replace(".", ",")
+            next_text = parse_text(next_elements)
+            if text == next_text:
                 i += 1
+                continue
+
+            if end > next_start:
+                if not '[' in next_text:
+                    text += '\n—' + next_text
+                else: 
+                    text += '\n' + next_text
+                end = next_end
+                i += 1
+            
             else:
                 break
-        
+                
         srt_events.append((start, end, text))
         i += 1
 
