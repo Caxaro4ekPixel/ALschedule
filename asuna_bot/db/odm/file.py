@@ -1,15 +1,20 @@
-from mongoengine import (
-    Document,
-    StringField,
-    IntField,
-    DateTimeField
-)
-
+from beanie import Document, Link
+from typing import Optional
+from .user import User
+from .release import Release
+from .episode import Episode
+from datetime import datetime
 
 class File(Document):
-    user_id       = IntField()
-    user_fullname = StringField()
-    file_type     = StringField()
-    file_size     = StringField()
-    file_name     = StringField()
-    sent_date     = DateTimeField()
+    user         : Link[User]
+    release      : Link[Release]
+    episode      : Optional[Link[Episode]]
+    tg_id        : str
+    type         : str
+    size         : str
+    name         : str
+    message_text : str
+    date         : datetime
+    
+    class Settings:
+        name = "files"

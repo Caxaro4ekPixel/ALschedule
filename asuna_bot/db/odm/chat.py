@@ -1,28 +1,28 @@
-from mongoengine import (
-    Document,
-    EmbeddedDocument,
-    EmbeddedDocumentField,
-    StringField,
-    BooleanField,
-    IntField,
-    ReferenceField,
-    ListField
-)
+from beanie import Document, Link
+from typing import Optional
+from pydantic import BaseModel
 from .release import Release
 
 
-class ChatConfig(EmbeddedDocument):
-    submitter            = StringField(default="[SubsPlease]")
-    deadline_alert       = BooleanField(default=True)
-    direct_links         = BooleanField(default=True)
-    torrent_files        = BooleanField(default=True)
-    show_hd              = BooleanField(default=False)
-    ete_num              = BooleanField(default=False)
-    magnet_links         = BooleanField(default=True)
+class ChatConfig(BaseModel):
+    submitter          : str  = "[SubsPlease]"
+    show_alerts        : bool = True
+    show_fhd           : bool = True
+    show_hd            : bool = True
+    show_sd            : bool = True
+    show_direct_links  : bool = True
+    show_magnet_links  : bool = True
+    send_torrent_files : bool = True
+    e2e_numbering      : bool = False
 
 
-class MongoChat(Document):
-    _id     = IntField(primary_key=True)
-    name    = StringField(max_length=100)
-    config  = EmbeddedDocumentField(ChatConfig, default=ChatConfig)
-    release = ReferenceField(Release)
+class Chat(Document):
+    id      : int
+    status  : str = None
+    service_msg_id : int
+    name    : str
+    config  : ChatConfig = ChatConfig
+    release : Optional[Link[Release]]
+    
+    class Settings:
+        name = "chats"

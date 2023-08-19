@@ -1,20 +1,20 @@
-from mongoengine import (
-    Document,
-    StringField,
-    BooleanField,
-    IntField,
-    EmbeddedDocumentField,
-    ListField
-)
-from .episode import Episode
+from typing import List, Optional
+from beanie import Document
+
+
 
 class Release(Document):
-    _id        = IntField(primary_key=True)
-    chat_id    = IntField()
-    ru_title   = StringField()
-    en_title   = StringField()
-    code       = StringField()
-    total_ep   = IntField(min_value=0, max_value=1000)
-    is_ongoing = BooleanField(default=True)
-    is_top     = BooleanField(default=False)
-    episodes   = ListField(EmbeddedDocumentField(Episode))
+    id         : int
+    chat_id    : int
+    status     : str = None
+    code       : str
+    en_title   : str
+    ru_title   : str
+    total_ep   : Optional[int]
+    season     : str
+    is_ongoing : bool = False
+    is_top     : bool = False
+    is_commer  : bool = False
+
+    class Settings:
+        name = "releases"

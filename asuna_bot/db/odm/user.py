@@ -1,11 +1,12 @@
-from mongoengine import (
-    Document,
-    StringField,
-    IntField
-)
+from typing import List
+from beanie import Document
 
 
 class User(Document):
-    _id       = IntField(primary_key=True)
-    full_name = StringField(max_length=100)
-    user_name = StringField(max_length=100)
+    id        : str
+    full_name : str
+    user_name : str
+    role      : List[str]
+
+    class Settings:
+        name = "users"

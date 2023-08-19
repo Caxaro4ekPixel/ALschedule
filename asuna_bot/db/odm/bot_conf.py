@@ -1,12 +1,9 @@
-from mongoengine import (
-    Document,
-    StringField,
-    IntField
-)
-
+from beanie import Document
 
 class BotConfig(Document):
-    rss_interval = IntField(default=180)
-    rss_last_id  = IntField()
-    timezone     = StringField()
-
+    nyaa_rss_interval : int = 180
+    nyaa_rss_last_id  : int
+    timezone          : str = "Europe/Moscow"
+    
+    class Settings:
+        name = "bot_config"

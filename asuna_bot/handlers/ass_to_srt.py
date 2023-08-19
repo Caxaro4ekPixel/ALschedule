@@ -39,15 +39,20 @@ async def ass_to_srt(msg: Message):
     def parse_text(elements) -> str:
         effect = elements[8]
         text = ''.join(elements[9:]).strip().replace("\\N", " ")
+        
+        if text.startswith('—'):
+            text = text.replace("—", "")
+
         if effect: 
             text = "[" + text + "]"
+        
         else:
             tags = ("\\fn", "\\shad", "\\bord", "\\fade")
             for tag in tags:
                 if tag in text:
                     text = "[" + text + "]"
                     break
-        return re.sub(r'{.*?}', '', text.replace("—", ""))
+        return re.sub(r'{.*?}', '', text)
     
     srt_events = []
     i = 1

@@ -1,5 +1,5 @@
 from typing import Optional
-from pydantic import BaseModel, HttpUrl, FileUrl, AnyUrl
+from pydantic import BaseModel, HttpUrl, AnyUrl
 from datetime import datetime
 
 

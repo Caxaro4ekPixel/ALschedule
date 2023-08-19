@@ -9,3 +9,4 @@ utils.py
 __pycache__/
 *.log
 *.mongodb
+/env
